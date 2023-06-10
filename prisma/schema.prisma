@@ -3,74 +3,32 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL_PROD")
+  shadowDatabaseUrl = env("DATABASE_URL_DEV")
+  relationMode      = "prisma"
 }
 
 model User {
-  CPF String @id @unique
-  email String @unique
-  name String
-  lastName String 
-  password String
-  sex String
-  phone String 
-  birthdate String
-  CEP String
-  number String
-  city String
-  UF String
-  rent Rent[]
-  products Product[]
+
 }
 
 model Rent {
-  id String @id @default(uuid())
-  date String
-  insuranceValue String
-  userId String @unique
-  user User @relation(fields: [userId], references: [CPF])
-  itemsRentalRent ItemsRentalRent[]
-  payment Payment[]
-  return Return[]
+ 
 }
 
 model Product {
-	id String @id @default(uuid())
-	productType String 
-	productDescription String
-	price String
-	measure String
-	brand String
-	tissueType String
-	userId String @unique
-	user User @relation(fields: [userId], references: [CPF])
-  itemsRentalRent ItemsRentalRent[]
-  return Return[]
+	
 }
 
 model ItemsRentalRent {
-  rentId String @default(uuid())
-  productId String @default(uuid())
-  rent Rent @relation(fields: [rentId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
-  @@id([rentId, productId])
+  
 }
 
-
 model Payment {
-  id String @default(uuid())
-  rentId String @default(uuid())
-  rent Rent @relation(fields: [rentId], references: [id])
-  @@id([id, rentId])
+
 }
 
 model Return {
-  rentId String @default(uuid())
-  productId String @default(uuid())
-  date String
-  returnConfirmation Boolean
-  rent Rent @relation(fields: [rentId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
-  @@id([rentId, productId])
+
 }
